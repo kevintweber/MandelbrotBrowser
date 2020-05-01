@@ -1,6 +1,12 @@
 export default function humanReadable(value: number): string {
-    let unit = [ "", "k", "M", "B", "T" ];
-    let magnitude = Math.ceil((1 + Math.log(value) / Math.log(10)) / 3);
+    let normalizedValue = Math.abs(value);
+    if (normalizedValue < 1000) {
+        return value.toString();
+    }
 
-    return (value / Math.pow(10, 3 * (magnitude - 1))).toFixed(3) + unit[magnitude - 1];
+    let sign = value < 0 ? "-" : "";
+    let unit = [ "", "K", "M", "B", "T" ];
+    let magnitude = Math.floor(Math.log(normalizedValue) / Math.log(1000));
+
+    return sign + (normalizedValue / Math.pow(1000, magnitude)).toFixed(3) + " " + unit[magnitude];
 }
