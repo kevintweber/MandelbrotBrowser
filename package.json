@@ -1,0 +1,9 @@
+{
+  "name": "mandelbrot",
+  "version": "1.0.0",
+  "description": "Generates Mandelbrot images",
+  "main": "src/index.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {}
+}

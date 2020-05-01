@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mandelbrot</title>
+    <style type="text/css">
+        body {
+            background-color: black;
+            font-family: Ariel, sans-serif;
+            font-size: 13px;
+            padding: 0;
+            margin: 0;
+        }
+
+        #mandelbrot {
+            background-color: black;
+            cursor: crosshair;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        #report {
+            background-color: rgba(0, 0, 0, .5);;
+            border: 2px solid grey;
+            border-radius: 4px;
+            color: white;
+            cursor: inherit;
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            z-index: 1;
+            padding: 10px;
+            margin: 0;
+        }
+
+        h1 {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="report">
+    <h1>The Mandelbrot Set</h1>
+    <div>
+        <p>Rendering time: <span id="rendering-time">Unknown</span> sec.</p>
+        <p>Pixels / second: <span id="pixels-per-second">Incomplete</span></p>
+        <p>X: <span id="x-coordinate"></span></p>
+        <p>Y: <span id="y-coordinate"></span></p>
+        <p>Depth: <span id="depth"></span></p>
+        <p>Max Iterations: <span id="max-iterations"></span></p>
+    </div>
+    <div>
+        <button id="reset">Reset</button>
+    </div>
+</div>
+<div id="container">
+    <canvas id="mandelbrot" width="0" height="0"></canvas>
+</div>
+<script src="index.js"></script>
+</body>
+</html>
