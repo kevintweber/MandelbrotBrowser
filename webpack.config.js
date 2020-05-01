@@ -1,8 +1,8 @@
 const path = require('path');
 
 module.exports = {
+    mode: "production",
     entry: './src/index.ts',
-    devtool: 'inline-source-map',
     module: {
         rules: [
             {
@@ -13,7 +13,7 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: [ '.ts', '.js' ],
+        extensions: ['.ts', '.js'],
     },
     output: {
         filename: 'main.js',
