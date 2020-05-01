@@ -83,13 +83,12 @@ web_modules/
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
-# Comment in the public line in if your project uses Gatsby and not Next.js
+# Comment in the dist line in if your project uses Gatsby and not Next.js
 # https://nextjs.org/blog/next-9-1#public-directory-support
-# public
+# dist
 
 # vuepress build output
 .vuepress/dist
@@ -118,8 +117,3 @@ dist
 
 # Jetbrains
 .idea
-
-# Typescript
-*.js
-*.js.map
-

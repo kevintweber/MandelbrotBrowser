@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "module": "CommonJS",
-    "outDir": "public",
-    "sourceMap": true,
-    "target": "ES5"
+    "target": "ES5",
+    "sourceMap": true
   },
   "include": [
     "src/*"
