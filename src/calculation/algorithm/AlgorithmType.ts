@@ -1,0 +1,5 @@
+export enum AlgorithmType {
+
+    LineByLine
+
+}
