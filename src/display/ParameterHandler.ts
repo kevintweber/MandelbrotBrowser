@@ -4,8 +4,8 @@ export class ParameterHandler {
     centerY: number = 0;
     width: number = 5;
 
-    parseQueryParameters() {
-        let queryParameters = window.location.search.replace("?", "").split("&");
+    parseQueryParameters(query: string) {
+        let queryParameters = query.replace("?", "").split("&");
         console.log("Query parameters", queryParameters);
 
         for (let i = 0; i < queryParameters.length; i++) {

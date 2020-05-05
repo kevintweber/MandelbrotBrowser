@@ -1,7 +1,7 @@
 import humanReadable from "../../src/display/HumanReadable";
 
-describe('humanReadable', function () {
-    it("single digits", function () {
+describe('humanReadable', () => {
+    it("single digits", () => {
         let result1 = humanReadable(5);
         expect(result1).toBe("5");
 
@@ -15,7 +15,7 @@ describe('humanReadable', function () {
         expect(negative).toBe("-123");
     });
 
-    it("thousands", function () {
+    it("thousands", () => {
         let result1 = humanReadable(1005);
         expect(result1).toBe("1.005 K");
 
@@ -29,7 +29,7 @@ describe('humanReadable', function () {
         expect(negative).toBe("-12.003 K");
     });
 
-    it("millions", function () {
+    it("millions", () => {
         let result1 = humanReadable(1005000);
         expect(result1).toBe("1.005 M");
 
@@ -43,7 +43,7 @@ describe('humanReadable', function () {
         expect(negative).toBe("-12.003 M");
     });
 
-    it("billions", function () {
+    it("billions", () => {
         let result1 = humanReadable(1000005000);
         expect(result1).toBe("1.000 B");
 

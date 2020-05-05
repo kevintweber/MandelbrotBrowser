@@ -1,4 +1,4 @@
-export interface Coloring {
+export interface ColorScheme {
 
     getColor(depth: number): number[]
 

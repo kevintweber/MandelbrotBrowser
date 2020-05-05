@@ -1,38 +1,74 @@
 import { Algorithm } from "./Algorithm";
 import { Mandelbrot } from "../Mandelbrot";
-import { Coloring } from "../../display/coloring/Coloring";
+import { ColorScheme } from "../../display/colorscheme/ColorScheme";
+import { Coordinates } from "../Coordinates";
 
 export class LineByLine implements Algorithm {
 
-    private coloring: Coloring;
-    private mandelbrot: Mandelbrot;
+    private readonly colorScheme: ColorScheme;
+    private readonly context: CanvasRenderingContext2D;
+    private readonly coordinates: Coordinates;
+    private readonly engine: Mandelbrot;
 
     constructor(
-            coloring: Coloring,
-            mandelbrot: Mandelbrot) {
-        this.coloring = coloring;
-        this.mandelbrot = mandelbrot;
+            colorScheme: ColorScheme,
+            coordinates: Coordinates,
+            context: CanvasRenderingContext2D,
+            engine: Mandelbrot) {
+        this.colorScheme = colorScheme;
+        this.coordinates = coordinates;
+        this.context = context;
+        this.engine = engine;
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
-        let img = ctx.createImageData(this.mandelbrot.pixelWidth, 1);
-        for (let y = 0; y < this.mandelbrot.pixelHeight; y++) {
-            this.drawLine(img, y);
-            ctx.putImageData(img, 0, y);
+    draw(onSuccessCallback: () => void) {
+        let img = this.context.createImageData(this.coordinates.pixelWidth, 1);
+
+        let lastUpdate = (new Date).getTime();
+        let y = 0;
+        let maxY = this.coordinates.pixelHeight;
+
+        let drawCallback = () => {
+            this.drawLine(img, this.colorScheme, this.coordinates, this.engine, y);
+            this.context.putImageData(img, 0, y);
+
+            y++;
+            if (y > maxY) {
+                return onSuccessCallback();
+            }
+
+            // Relinquish execution back to the browser once every second,
+            // so it can paint what is has so far.
+            let now = (new Date).getTime();
+            if (now - lastUpdate > 1000) {
+                lastUpdate = (new Date).getTime();
+                setTimeout(drawCallback, 0);
+            } else {
+                drawCallback();
+            }
         }
+
+        drawCallback();
     }
 
-    private drawLine(img: ImageData, y: number) {
+    private drawLine(
+            localImg: ImageData,
+            localColorScheme: ColorScheme,
+            localCoordinates: Coordinates,
+            localEngine: Mandelbrot,
+            y: number) {
         let offset = 0;
-        for (let x = 0; x < this.mandelbrot.pixelWidth; x++) {
-            let position = this.mandelbrot.determinePosition(x, y);
-            let depth = this.mandelbrot.calculateEscapeDepth(position);
-            let color = this.coloring.getColor(depth);
+        for (let x = 0; x < localCoordinates.pixelWidth; x++) {
+            let xCoordinate = localCoordinates.getXCoordinate(x);
+            let yCoordinate = localCoordinates.getYCoordinate(y);
 
-            img.data[offset++] = color[0];
-            img.data[offset++] = color[1];
-            img.data[offset++] = color[2];
-            img.data[offset++] = color[3];
+            let depth = localEngine.calculateEscapeDepth(xCoordinate, yCoordinate);
+            let color = localColorScheme.getColor(depth);
+
+            localImg.data[offset++] = color[0];
+            localImg.data[offset++] = color[1];
+            localImg.data[offset++] = color[2];
+            localImg.data[offset++] = color[3];
         }
     }
 }

@@ -6,7 +6,7 @@ export default function humanReadable(value: number): string {
 
     let sign = value < 0 ? "-" : "";
     let unit = [ "", "K", "M", "B", "T" ];
-    let magnitude = Math.floor(Math.log(normalizedValue) / Math.log(1000));
+    let magnitude = Math.floor(Math.log10(normalizedValue) / 3);
 
     return sign + (normalizedValue / Math.pow(1000, magnitude)).toFixed(3) + " " + unit[magnitude];
 }

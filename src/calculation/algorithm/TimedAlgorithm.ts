@@ -10,11 +10,15 @@ export class TimedAlgorithm implements Algorithm {
         this.milliseconds = 0;
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
+    draw(onSuccessCallback: () => void) {
         let startTime = (new Date).getTime();
-        this.algorithm.draw(ctx);
-        let stopTime = (new Date).getTime();
+        let timedSuccessCallback = () => {
+            let stopTime = (new Date).getTime();
+            this.milliseconds = stopTime - startTime;
 
-        this.milliseconds = stopTime - startTime;
+            onSuccessCallback();
+        }
+
+        this.algorithm.draw(timedSuccessCallback);
     }
 }
