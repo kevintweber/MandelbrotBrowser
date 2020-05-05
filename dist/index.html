@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mandelbrot</title>
+    <title>Mandelbrot Browser</title>
     <style type="text/css">
         body {
             background-color: black;
@@ -14,11 +14,21 @@
 
         #mandelbrot {
             background-color: black;
-            cursor: crosshair;
             position: absolute;
             left: 0;
             top: 0;
             z-index: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        #selection {
+            background-color: transparent;
+            cursor: crosshair;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 1;
             padding: 0;
             margin: 0;
         }
@@ -32,7 +42,7 @@
             position: absolute;
             left: 20px;
             top: 20px;
-            z-index: 1;
+            z-index: 2;
             padding: 10px;
             margin: 0;
         }
@@ -54,11 +64,13 @@
         <p>Max Iterations: <span id="max-iterations"></span></p>
     </div>
     <div>
-        <button id="reset">Reset</button>
+        <input type="submit" id="reset" value="Reset"/>
+        <input type="submit" id="enlarge" data-width="4" data-xcenter="0" data-ycenter="0" value="Enlarge"/>
     </div>
 </div>
 <div id="container">
     <canvas id="mandelbrot" width="0" height="0"></canvas>
+    <canvas id="selection" width="0" height="0"></canvas>
 </div>
 <script src="main.js"></script>
 </body>

@@ -14,11 +14,18 @@ let maxIterations = determineMaxIterations(parameterHandler.width);
 let maxIterationsSpan = document.getElementById("max-iterations");
 maxIterationsSpan.textContent = maxIterations.toString();
 
-// Draw Mandelbrot set
+// Initialize the canvas.
 let canvas = <HTMLCanvasElement>document.getElementById("mandelbrot");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
-let ctx = canvas.getContext("2d");
+let selectionCanvas = <HTMLCanvasElement>document.getElementById("selection");
+selectionCanvas.height = window.innerHeight;
+selectionCanvas.width = window.innerWidth;
+let resetButton = document.getElementById("reset");
+let enlargeButton = document.getElementById("enlarge");
+
+// Draw Mandelbrot set
+let mandelbrotCtx = canvas.getContext("2d");
 let mandelbrot = new Mandelbrot(
         canvas.height,
         canvas.width,
@@ -29,27 +36,74 @@ let mandelbrot = new Mandelbrot(
 );
 console.log(mandelbrot);
 
-let coloring = new Rgb1(maxIterations, 140);
+let coloring = new Rgb1(maxIterations, 200, 120);
 let algorithm = createTimedAlgorithm(AlgorithmType.LineByLine, coloring, mandelbrot);
-algorithm.draw(ctx);
-
-// Handle position reporting.
-let coordinatesSpan = document.getElementById("coordinates");
-let depthSpan = document.getElementById("depth");
-canvas.onmousemove = function (e) {
-    let position = mandelbrot.determinePosition(e.clientX, e.clientY);
-    coordinatesSpan.textContent = position.x.toPrecision(5) + " + " +
-            position.y.toPrecision(5) + "i";
-    depthSpan.textContent = mandelbrot.calculateEscapeDepth(position).toString();
-}
+algorithm.draw(mandelbrotCtx);
 
 let renderingTimeSpan = document.getElementById("rendering-time");
 renderingTimeSpan.textContent = ((algorithm.milliseconds) / 1000).toPrecision(3);
 let pixelsPerSecondSpan = document.getElementById("pixels-per-second");
 pixelsPerSecondSpan.textContent = humanReadable(canvas.width * canvas.height / ((algorithm.milliseconds) / 1000));
 
+// Handle selection box
+let selectionCtx = selectionCanvas.getContext("2d");
+let selectionBox = null;
+selectionCanvas.onmousedown = function (e) {
+    if (selectionBox === null) {
+        console.log(window.location);
+        console.log("Starting selection box at:", e.clientX, e.clientY);
+        selectionBox = [ e.clientX, e.clientY, null, null ];
+    }
+}
+
+let coordinatesSpan = document.getElementById("coordinates");
+let depthSpan = document.getElementById("depth");
+selectionCanvas.onmousemove = function (e) {
+    if (selectionBox !== null) {
+        selectionCtx.clearRect(
+                0,
+                0,
+                window.innerWidth,
+                window.innerHeight
+        );
+
+        selectionCtx.lineWidth = 1;
+        selectionCtx.strokeStyle = "#EEEEEE";
+        selectionBox[2] = e.clientX;
+        selectionBox[3] = e.clientY;
+
+        selectionCtx.strokeRect(
+                selectionBox[0],
+                selectionBox[1],
+                selectionBox[2] - selectionBox[0],
+                selectionBox[3] - selectionBox[1]
+        );
+    }
+
+    let position = mandelbrot.determinePosition(e.clientX, e.clientY);
+    coordinatesSpan.textContent = position.x.toPrecision(5) + " + " +
+            position.y.toPrecision(5) + "i";
+    depthSpan.textContent = mandelbrot.calculateEscapeDepth(position).toString();
+}
+selectionCanvas.onmouseup = function (e) {
+    console.log("Stopping selection box at:", e.clientX, e.clientY);
+    let positionStart = mandelbrot.determinePosition(Math.min(selectionBox[0], selectionBox[2]), Math.min(selectionBox[1], selectionBox[3]));
+    let positionStop = mandelbrot.determinePosition(Math.max(selectionBox[0], selectionBox[2]), Math.max(selectionBox[1], selectionBox[3]));
+    enlargeButton.setAttribute("data-width", (positionStop.x - positionStart.x).toString());
+    enlargeButton.setAttribute("data-xcenter", ((positionStart.x + positionStop.x) / 2).toString());
+    enlargeButton.setAttribute("data-ycenter", ((positionStart.y + positionStop.y) / 2).toString());
+    selectionBox = null;
+}
+
 // Handle reset
-let resetButton = document.getElementById("reset");
 resetButton.onclick = function () {
-    window.location.pathname = window.location.href.split("?")[0];
+    window.location.search = "";
+}
+
+// Handle enlarge
+enlargeButton.onclick = function () {
+    window.location.search = "center=" +
+            parseFloat(enlargeButton.getAttribute("data-xcenter")) + "," +
+            parseFloat(enlargeButton.getAttribute("data-ycenter")) + "&width=" +
+            parseFloat(enlargeButton.getAttribute("data-width"));
 }
