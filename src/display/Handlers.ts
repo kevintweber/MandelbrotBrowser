@@ -25,7 +25,7 @@ export function registerSelectionBoxHandlers(
             );
 
             selectionCtx.lineWidth = 1;
-            selectionCtx.strokeStyle = "#EEEEEE";
+            selectionCtx.strokeStyle = "#F8F8F8";
             selectionBox[2] = e.clientX;
             selectionBox[3] = e.clientY;
 
@@ -37,8 +37,9 @@ export function registerSelectionBoxHandlers(
             );
         }
 
-        coordinatesSpan.textContent = image.coordinates.getXCoordinate(e.clientX).toPrecision(8) + " + " +
-                image.coordinates.getYCoordinate(e.clientY).toPrecision(8) + "i";
+        let precision = Math.max(6, Math.floor(3 + Math.log10(5 / image.coordinates.width)));
+        coordinatesSpan.textContent = image.coordinates.getXCoordinate(e.clientX).toFixed(precision) + " + " +
+                image.coordinates.getYCoordinate(e.clientY).toFixed(precision) + "i";
         depthSpan.textContent = image.calculateEscapeDepth(e.clientX, e.clientY).toString();
     }
 

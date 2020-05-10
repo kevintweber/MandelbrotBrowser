@@ -20,6 +20,18 @@ export function preDrawUpdate(image: Image) {
                 parseFloat(enlargeButton.getAttribute("data-ycenter")) + "&width=" +
                 parseFloat(enlargeButton.getAttribute("data-width"));
     }
+
+    // Handle magnification
+    let magnificationSpan = document.getElementById("magnification");
+    const magnification = 5.0 / image.coordinates.width;
+    let magnificationText;
+    if (magnification < 1000000) {
+        magnificationText = Math.floor(magnification);
+    } else {
+        magnificationText = magnification.toExponential(3);
+    }
+
+    magnificationSpan.textContent = magnificationText;
 }
 
 export function postDrawUpdate(image: Image) {
@@ -29,7 +41,7 @@ export function postDrawUpdate(image: Image) {
 export function updateRenderStatistics(image: Image) {
     // Rendering time.
     let renderingTimeSpan = document.getElementById("rendering-time");
-    renderingTimeSpan.textContent = (image.getRenderingTime() / 1000).toPrecision(2);
+    renderingTimeSpan.textContent = (image.getRenderingTime() / 1000).toPrecision(2) + " sec.";
 
     // Pixels / second
     let pixelsPerSecondSpan = document.getElementById("pixels-per-second");

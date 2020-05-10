@@ -34,7 +34,7 @@
         }
 
         #report {
-            background-color: rgba(0, 0, 0, .5);;
+            background-color: rgba(0, 0, 0, .6);
             border: 2px solid grey;
             border-radius: 4px;
             color: white;
@@ -52,16 +52,22 @@
             padding: 0;
             margin: 0;
         }
+
+        p {
+            margin: 0.5em 0;
+            padding: 0;
+        }
     </style>
 </head>
 <body>
 <div id="report">
     <h1>The Mandelbrot Set</h1>
     <div>
-        <p>Rendering time: <span id="rendering-time">Render Incomplete</span> sec.</p>
+        <p>Rendering time: <span id="rendering-time">Render Incomplete</span></p>
         <p>Pixels / second: <span id="pixels-per-second">Render Incomplete</span></p>
         <p>Coordinates: <span id="coordinates"></span></p>
         <p>Depth: <span id="depth"></span></p>
+        <p>Magnification: <span id="magnification"></span></p>
         <p>Max Iterations: <span id="max-iterations"></span></p>
     </div>
     <div>
