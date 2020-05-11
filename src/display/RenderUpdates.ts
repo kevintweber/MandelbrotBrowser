@@ -2,6 +2,8 @@ import humanReadable from "./HumanReadable";
 import { Image } from "../calculation/Image";
 
 export function preDrawUpdate(image: Image) {
+    console.log("Pre-draw update");
+
     // Handle max-iterations
     let maxIterationsSpan = document.getElementById("max-iterations");
     maxIterationsSpan.textContent = image.maxIterations.toString();
@@ -15,7 +17,7 @@ export function preDrawUpdate(image: Image) {
     // Handle enlarge
     let enlargeButton = document.getElementById("enlarge");
     enlargeButton.onclick = () => {
-        window.location.search = "center=" +
+        window.location.search = "algorithm=" + enlargeButton.getAttribute("data-algorithm") + "&center=" +
                 parseFloat(enlargeButton.getAttribute("data-xcenter")) + "," +
                 parseFloat(enlargeButton.getAttribute("data-ycenter")) + "&width=" +
                 parseFloat(enlargeButton.getAttribute("data-width"));
@@ -34,11 +36,9 @@ export function preDrawUpdate(image: Image) {
     magnificationSpan.textContent = magnificationText;
 }
 
-export function postDrawUpdate(image: Image) {
-    updateRenderStatistics(image);
-}
-
 export function updateRenderStatistics(image: Image) {
+    console.log("Updating render statistics");
+
     // Rendering time.
     let renderingTimeSpan = document.getElementById("rendering-time");
     renderingTimeSpan.textContent = (image.getRenderingTime() / 1000).toPrecision(2) + " sec.";

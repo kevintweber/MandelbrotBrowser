@@ -1,4 +1,4 @@
-import { postDrawUpdate, preDrawUpdate } from "../display/RenderUpdates";
+import { preDrawUpdate, updateRenderStatistics } from "../display/RenderUpdates";
 import { Mandelbrot } from "./Mandelbrot";
 import { TimedAlgorithm } from "./algorithm/TimedAlgorithm";
 import { Coordinates } from "./Coordinates";
@@ -28,10 +28,10 @@ export class Image {
         );
     }
 
-    generate() {
+    async generate() {
         preDrawUpdate(this);
-        this.algorithm.draw(() => {
-            postDrawUpdate(this);
+        await this.algorithm.draw(0, 0, () => {
+            updateRenderStatistics(this);
         });
     }
 

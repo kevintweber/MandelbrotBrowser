@@ -1,5 +1,5 @@
 export interface Algorithm {
 
-    draw(onSuccessCallback: () => void);
+    draw(x: number, y: number, onSuccessCallback: () => void);
 
 }

@@ -1,6 +1,5 @@
 import createImage from "./calculation/ImageFactory";
-import { registerSelectionBoxHandlers } from "./display/Handlers";
-import { AlgorithmType } from "./calculation/algorithm/AlgorithmType";
+import { registerAlgorithmSelect, registerSelectionBoxHandlers } from "./display/Handlers";
 import { ColorSchemeType } from "./display/colorscheme/ColorSchemeType";
 import { ParameterHandler } from "./display/ParameterHandler";
 
@@ -18,10 +17,10 @@ parameterHandler.parseQueryParameters(window.location.search);
 
 // Build the image.
 let image = createImage(
-        AlgorithmType.LineByLine,
         ColorSchemeType.RGB,
         imageCanvas,
         parameterHandler
 );
 registerSelectionBoxHandlers(selectionCanvas, image);
+registerAlgorithmSelect();
 image.generate();

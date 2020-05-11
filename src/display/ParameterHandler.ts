@@ -1,5 +1,8 @@
+import { AlgorithmType } from "../calculation/algorithm/AlgorithmType";
+
 export class ParameterHandler {
 
+    algorithm: AlgorithmType = AlgorithmType["LineByLine"];
     centerX: number = -0.5;
     centerY: number = 0;
     width: number = 5;
@@ -12,6 +15,10 @@ export class ParameterHandler {
             let queryParts = queryParameters[i].split("=");
             let value = queryParts[1];
             switch (queryParts[0]) {
+                case "algorithm":
+                    this.algorithm = AlgorithmType[value];
+                    break;
+
                 case "center":
                     let coordinates = value.split(",");
                     this.centerX = parseFloat(coordinates[0]);

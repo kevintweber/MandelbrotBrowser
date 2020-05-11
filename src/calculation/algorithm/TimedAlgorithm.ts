@@ -10,7 +10,7 @@ export class TimedAlgorithm implements Algorithm {
         this.milliseconds = 0;
     }
 
-    draw(onSuccessCallback: () => void) {
+    async draw(x: number, y: number, onSuccessCallback: () => void) {
         let startTime = (new Date).getTime();
         let timedSuccessCallback = () => {
             let stopTime = (new Date).getTime();
@@ -19,6 +19,6 @@ export class TimedAlgorithm implements Algorithm {
             onSuccessCallback();
         }
 
-        this.algorithm.draw(timedSuccessCallback);
+        await this.algorithm.draw(x, y, timedSuccessCallback);
     }
 }

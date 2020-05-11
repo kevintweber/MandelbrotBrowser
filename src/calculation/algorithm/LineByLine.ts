@@ -21,49 +21,42 @@ export class LineByLine implements Algorithm {
         this.engine = engine;
     }
 
-    draw(onSuccessCallback: () => void) {
+    async draw(x: number, y: number, onSuccessCallback: () => void) {
         let img = this.context.createImageData(this.coordinates.pixelWidth, 1);
 
         let lastUpdate = (new Date).getTime();
-        let y = 0;
-        let maxY = this.coordinates.pixelHeight;
 
-        let drawCallback = () => {
-            this.drawLine(img, this.colorScheme, this.coordinates, this.engine, y);
+        for (; y < this.coordinates.pixelHeight; y++) {
+            this.drawLine(img, y);
             this.context.putImageData(img, 0, y);
-
-            y++;
-            if (y > maxY) {
-                return onSuccessCallback();
-            }
 
             // Relinquish execution back to the browser once every second,
             // so it can paint what is has so far.
             let now = (new Date).getTime();
             if (now - lastUpdate > 1000) {
+                console.log("Updating image.");
                 lastUpdate = (new Date).getTime();
-                setTimeout(drawCallback, 0);
-            } else {
-                drawCallback();
+                await setTimeout(() => {
+                    this.draw(x, y, onSuccessCallback);
+                }, 0);
+
+                return;
             }
         }
 
-        drawCallback();
+        return onSuccessCallback();
     }
 
     private drawLine(
             localImg: ImageData,
-            localColorScheme: ColorScheme,
-            localCoordinates: Coordinates,
-            localEngine: Mandelbrot,
             y: number) {
         let offset = 0;
-        for (let x = 0; x < localCoordinates.pixelWidth; x++) {
-            let xCoordinate = localCoordinates.getXCoordinate(x);
-            let yCoordinate = localCoordinates.getYCoordinate(y);
+        for (let x = 0; x < this.coordinates.pixelWidth; x++) {
+            let xCoordinate = this.coordinates.getXCoordinate(x);
+            let yCoordinate = this.coordinates.getYCoordinate(y);
 
-            let depth = localEngine.calculateEscapeDepth(xCoordinate, yCoordinate);
-            let color = localColorScheme.getColor(depth);
+            let depth = this.engine.calculateEscapeDepth(xCoordinate, yCoordinate);
+            let color = this.colorScheme.getColor(depth);
 
             localImg.data[offset++] = color[0];
             localImg.data[offset++] = color[1];

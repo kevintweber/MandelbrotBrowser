@@ -1,5 +1,6 @@
 export enum AlgorithmType {
 
-    LineByLine
+    LineByLine,
+    Blockwise
 
 }

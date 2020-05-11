@@ -60,3 +60,11 @@ export function registerSelectionBoxHandlers(
         selectionBox = null;
     }
 }
+
+export function registerAlgorithmSelect() {
+    let enlargeButton = document.getElementById("enlarge");
+    let algorithmSelect = document.getElementById("algorithm");
+    algorithmSelect.onselect = function (e) {
+        enlargeButton.setAttribute("data-algorithm", algorithmSelect.getAttribute("value"));
+    }
+}
