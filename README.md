@@ -1,7 +1,7 @@
 # Mandelbrot Browser
 
-This is an educational project of mine, intended to tach myself
-some Typescript, Webpack, Yarn, and other modern JS techniques.
+This is an educational project of mine, intended to teach myself
+some Typescript, Webpack, Yarn, Async/Await, and other modern JS techniques.
 
 ### Usage
 1) Download the contents of the dist directory and put them in the
