@@ -24,10 +24,10 @@ export default function createImage(
             parameterHandler.centerY,
             parameterHandler.width
     );
-    console.log("Coordinates: ", coordinates);
+    console.log("Coordinates: ", coordinates.toString());
 
     let engine = new Mandelbrot(maxIterations);
-    console.log("Engine: ", engine);
+    console.log("Engine: ", engine.toString());
 
     let algorithm = createTimedAlgorithm(
             parameterHandler.algorithm,
@@ -36,7 +36,7 @@ export default function createImage(
             canvas.getContext("2d"),
             engine
     );
-    console.log("Algorithm: ", algorithm);
+    console.log("Algorithm: ", algorithm.toString());
 
     return new Image(
             algorithm,

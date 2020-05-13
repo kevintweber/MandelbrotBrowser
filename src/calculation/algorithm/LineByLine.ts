@@ -23,7 +23,6 @@ export class LineByLine implements Algorithm {
 
     async draw(x: number, y: number, onSuccessCallback: () => void) {
         let img = this.context.createImageData(this.coordinates.pixelWidth, 1);
-
         let lastUpdate = (new Date).getTime();
 
         for (; y < this.coordinates.pixelHeight; y++) {
@@ -63,5 +62,11 @@ export class LineByLine implements Algorithm {
             localImg.data[offset++] = color[2];
             localImg.data[offset++] = color[3];
         }
+    }
+
+    toString(): string {
+        return "LineByLine[" +
+                "engine={" + this.engine.toString() + "};" +
+                "]"
     }
 }

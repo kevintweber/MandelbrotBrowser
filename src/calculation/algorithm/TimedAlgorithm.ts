@@ -21,4 +21,10 @@ export class TimedAlgorithm implements Algorithm {
 
         await this.algorithm.draw(x, y, timedSuccessCallback);
     }
+
+    toString(): string {
+        return "TimedAlgorithm[" +
+                "algorithm={" + this.algorithm.toString() + "};" +
+                "]";
+    }
 }

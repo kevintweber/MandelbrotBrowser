@@ -28,4 +28,13 @@ export class Coordinates {
     getYCoordinate(yPosition: number): number {
         return (this.centerY + (this.pixelHeight * this.increment / 2)) - (yPosition * this.increment);
     }
+
+    toString(): string {
+        return "Coordinates[" +
+                "pixelHeight=" + this.pixelHeight + ";" +
+                "pixelWidth=" + this.pixelWidth + ";" +
+                "centerX=" + this.centerX + ";" +
+                "centerY=" + this.centerY + ";" +
+                "]";
+    }
 }

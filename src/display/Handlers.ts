@@ -62,9 +62,10 @@ export function registerSelectionBoxHandlers(
 }
 
 export function registerAlgorithmSelect() {
-    let enlargeButton = document.getElementById("enlarge");
+    let enlargeInput = document.getElementById("enlarge");
     let algorithmSelect = document.getElementById("algorithm");
-    algorithmSelect.onselect = function (e) {
-        enlargeButton.setAttribute("data-algorithm", algorithmSelect.getAttribute("value"));
+    algorithmSelect.onchange = function (e) {
+        const target = e.target as HTMLSelectElement
+        enlargeInput.setAttribute("data-algorithm", target[target.selectedIndex].getAttribute("value"));
     }
 }

@@ -30,5 +30,18 @@ export class ParameterHandler {
                     break;
             }
         }
+
+        this.updateUI();
+    }
+
+    private updateUI() {
+        let algorithmSelect = document.getElementById("algorithm") as HTMLSelectElement;
+        algorithmSelect.value = AlgorithmType[this.algorithm];
+
+        let enlargeInput = document.getElementById("enlarge");
+        enlargeInput.setAttribute("data-algorithm", AlgorithmType[this.algorithm]);
+        enlargeInput.setAttribute("data-xcenter", this.centerX.toString());
+        enlargeInput.setAttribute("data-ycenter", this.centerY.toString());
+        enlargeInput.setAttribute("data-width", this.width.toString());
     }
 }

@@ -20,52 +20,51 @@ export class Blockwise implements Algorithm {
         this.coordinates = coordinates;
         this.context = context;
         this.engine = engine;
-        this.blockSize = 10;
+        this.blockSize = 12;
     }
 
-    draw(x: number, y: number, onSuccessCallback: () => void) {
+    async draw(x: number, y: number, onSuccessCallback: () => void) {
         let lastUpdate = (new Date).getTime();
         let maxX = this.coordinates.pixelWidth;
         let maxY = this.coordinates.pixelHeight;
 
-        let drawCallback = () => {
-            let xLeft = x;
-            let xRight = x + this.blockSize > maxX ? maxX - x : x + this.blockSize;
+        while (y < maxY) {
             let yTop = y;
             let yBottom = y + this.blockSize > maxY ? maxY - y : y + this.blockSize;
 
-            let img = this.context.createImageData(xRight - xLeft, yBottom - yTop);
-            this.drawBlock(img, this.colorScheme, this.coordinates, this.engine, xLeft, xRight, yTop, yBottom);
-            this.context.putImageData(img, xLeft, yTop);
+            while (x < maxX) {
+                let xLeft = x;
+                let xRight = x + this.blockSize > maxX ? maxX - x : x + this.blockSize;
 
-            x = x + this.blockSize;
-            if (x > maxX) {
-                x = 0;
-                y = y + this.blockSize;
-                if (y > maxY) {
-                    return;
-                }
+                let img = this.context.createImageData(xRight - xLeft, yBottom - yTop);
+                this.drawBlock(img, xLeft, xRight, yTop, yBottom);
+                this.context.putImageData(img, xLeft, yTop);
+
+                x = x + this.blockSize;
             }
+
+            x = 0;
+            y = y + this.blockSize;
 
             // Relinquish execution back to the browser once every second,
             // so it can paint what is has so far.
             let now = (new Date).getTime();
             if (now - lastUpdate > 1000) {
+                console.log("Updating image.");
                 lastUpdate = (new Date).getTime();
-                setTimeout(drawCallback, 0);
-            } else {
-                drawCallback();
+                await setTimeout(() => {
+                    this.draw(x, y, onSuccessCallback);
+                }, 0);
+
+                return;
             }
         }
 
-        drawCallback();
+        return onSuccessCallback();
     }
 
     private drawBlock(
             localImg: ImageData,
-            localColorScheme: ColorScheme,
-            localCoordinates: Coordinates,
-            localEngine: Mandelbrot,
             xLeft: number,
             xRight: number,
             yTop: number,
@@ -73,11 +72,11 @@ export class Blockwise implements Algorithm {
         let offset = 0;
         for (let y = yTop; y < yBottom; y++) {
             for (let x = xLeft; x < xRight; x++) {
-                let xCoordinate = localCoordinates.getXCoordinate(x);
-                let yCoordinate = localCoordinates.getYCoordinate(y);
+                let xCoordinate = this.coordinates.getXCoordinate(x);
+                let yCoordinate = this.coordinates.getYCoordinate(y);
 
-                let depth = localEngine.calculateEscapeDepth(xCoordinate, yCoordinate);
-                let color = localColorScheme.getColor(depth);
+                let depth = this.engine.calculateEscapeDepth(xCoordinate, yCoordinate);
+                let color = this.colorScheme.getColor(depth);
 
                 localImg.data[offset++] = color[0];
                 localImg.data[offset++] = color[1];
@@ -85,5 +84,12 @@ export class Blockwise implements Algorithm {
                 localImg.data[offset++] = color[3];
             }
         }
+    }
+
+    toString(): string {
+        return "Blockwise[" +
+                "engine={" + this.engine.toString() + "};" +
+                "blockSize=" + this.blockSize +
+                "]"
     }
 }

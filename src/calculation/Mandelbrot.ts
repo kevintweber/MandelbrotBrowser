@@ -34,4 +34,10 @@ export class Mandelbrot {
 
         return iteration;
     }
+
+    toString(): string {
+        return "Mandelbrot[" +
+                "maxIterations=" + this.maxIterations +
+                "]";
+    }
 }
