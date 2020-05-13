@@ -20,7 +20,7 @@ export class Blockwise implements Algorithm {
         this.coordinates = coordinates;
         this.context = context;
         this.engine = engine;
-        this.blockSize = 12;
+        this.blockSize = 16;
     }
 
     async draw(x: number, y: number, onSuccessCallback: () => void) {
@@ -69,13 +69,42 @@ export class Blockwise implements Algorithm {
             xRight: number,
             yTop: number,
             yBottom: number) {
+        let fillDepth = this.getFillDepth(
+                xLeft,
+                xRight,
+                yTop,
+                yBottom
+        );
+        if (fillDepth === null) {
+            return this.calculateBlock(
+                    localImg,
+                    xLeft,
+                    xRight,
+                    yTop,
+                    yBottom
+            );
+        }
+
+        return this.fillBlock(
+                localImg,
+                xLeft,
+                xRight,
+                yTop,
+                yBottom,
+                fillDepth
+        );
+    }
+
+    private calculateBlock(
+            localImg: ImageData,
+            xLeft: number,
+            xRight: number,
+            yTop: number,
+            yBottom: number) {
         let offset = 0;
         for (let y = yTop; y < yBottom; y++) {
             for (let x = xLeft; x < xRight; x++) {
-                let xCoordinate = this.coordinates.getXCoordinate(x);
-                let yCoordinate = this.coordinates.getYCoordinate(y);
-
-                let depth = this.engine.calculateEscapeDepth(xCoordinate, yCoordinate);
+                let depth = this.calculateDepth(x, y);
                 let color = this.colorScheme.getColor(depth);
 
                 localImg.data[offset++] = color[0];
@@ -84,6 +113,68 @@ export class Blockwise implements Algorithm {
                 localImg.data[offset++] = color[3];
             }
         }
+    }
+
+    private fillBlock(
+            localImg: ImageData,
+            xLeft: number,
+            xRight: number,
+            yTop: number,
+            yBottom: number,
+            depth: number) {
+        let offset = 0;
+        let color = this.colorScheme.getColor(depth);
+        for (let y = yTop; y < yBottom; y++) {
+            for (let x = xLeft; x < xRight; x++) {
+                localImg.data[offset++] = color[0];
+                localImg.data[offset++] = color[1];
+                localImg.data[offset++] = color[2];
+                localImg.data[offset++] = color[3];
+            }
+        }
+    }
+
+    private getFillDepth(
+            xLeft: number,
+            xRight: number,
+            yTop: number,
+            yBottom: number): number | null {
+        const depth = this.calculateDepth(xLeft, yTop);
+
+        // Top & Bottom
+        for (let x = xLeft; x < xRight; x++) {
+            let topDepth = this.calculateDepth(x, yTop);
+            if (topDepth !== depth) {
+                return null;
+            }
+
+            let bottomDepth = this.calculateDepth(x, yBottom - 1);
+            if (bottomDepth !== depth) {
+                return null;
+            }
+        }
+
+        // Left & Right
+        for (let y = yTop + 1; y < yBottom - 2; y++) {
+            let leftDepth = this.calculateDepth(xLeft, y);
+            if (leftDepth !== depth) {
+                return null;
+            }
+
+            let rightDepth = this.calculateDepth(xRight - 1, y);
+            if (rightDepth !== depth) {
+                return null;
+            }
+        }
+
+        return depth;
+    }
+
+    private calculateDepth(x: number, y: number): number {
+        let xCoordinate = this.coordinates.getXCoordinate(x);
+        let yCoordinate = this.coordinates.getYCoordinate(y);
+
+        return this.engine.calculateEscapeDepth(xCoordinate, yCoordinate);
     }
 
     toString(): string {
