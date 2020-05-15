@@ -1,5 +1,6 @@
 import humanReadable from "./HumanReadable";
 import { Image } from "../calculation/Image";
+import { Julia } from "../calculation/engine/Julia";
 
 export function preDrawUpdate(image: Image) {
     console.log("Pre-draw update");
@@ -17,10 +18,20 @@ export function preDrawUpdate(image: Image) {
     // Handle enlarge
     let enlargeButton = document.getElementById("enlarge");
     enlargeButton.onclick = () => {
-        window.location.search = "algorithm=" + enlargeButton.getAttribute("data-algorithm") + "&center=" +
-                parseFloat(enlargeButton.getAttribute("data-xcenter")) + "," +
-                parseFloat(enlargeButton.getAttribute("data-ycenter")) + "&width=" +
-                parseFloat(enlargeButton.getAttribute("data-width"));
+        if (image.engine instanceof Julia) {
+            window.location.search = "set=Julia&algorithm=LineByLine&center=" + parseFloat(enlargeButton.getAttribute("data-xcenter")) + "," +
+                    parseFloat(enlargeButton.getAttribute("data-ycenter")) +
+                    "&width=" + parseFloat(enlargeButton.getAttribute("data-width")) +
+                    "&julia=" + enlargeButton.getAttribute("data-julia");
+
+            return;
+        }
+
+        window.location.search = "set=" + enlargeButton.getAttribute("data-set") +
+                "&algorithm=" + enlargeButton.getAttribute("data-algorithm") +
+                "&center=" + parseFloat(enlargeButton.getAttribute("data-xcenter")) + "," +
+                parseFloat(enlargeButton.getAttribute("data-ycenter")) +
+                "&width=" + parseFloat(enlargeButton.getAttribute("data-width"));
     }
 
     // Handle magnification

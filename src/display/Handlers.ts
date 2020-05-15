@@ -1,5 +1,15 @@
 import { Image } from "../calculation/Image";
 
+export function registerCanvasDoubleClick(
+        canvas: HTMLCanvasElement,
+        image: Image) {
+    canvas.ondblclick = function (e) {
+        let xJulia = image.coordinates.getXCoordinate(e.clientX);
+        let yJulia = image.coordinates.getYCoordinate(e.clientY);
+        window.open("index.html?set=Julia&center=0,0&julia=" + xJulia + "," + yJulia, "_blank");
+    }
+}
+
 export function registerSelectionBoxHandlers(
         canvas: HTMLCanvasElement,
         image: Image) {
@@ -15,7 +25,7 @@ export function registerSelectionBoxHandlers(
 
     let coordinatesSpan = document.getElementById("coordinates");
     let depthSpan = document.getElementById("depth");
-    canvas.onmousemove = function (e) {
+    canvas.onmousemove = (e) => {
         if (selectionBox !== null) {
             selectionCtx.clearRect(
                     0,
@@ -44,7 +54,7 @@ export function registerSelectionBoxHandlers(
     }
 
     let enlargeButton = document.getElementById("enlarge");
-    canvas.onmouseup = function (e) {
+    canvas.onmouseup = (e) => {
         console.log("Stopping selection box at:", e.clientX, e.clientY);
 
         let xCoordinateStart = image.coordinates.getXCoordinate(Math.min(selectionBox[0], selectionBox[2]));

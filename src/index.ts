@@ -1,5 +1,5 @@
 import createImage from "./calculation/ImageFactory";
-import { registerAlgorithmSelect, registerSelectionBoxHandlers } from "./display/Handlers";
+import { registerAlgorithmSelect, registerCanvasDoubleClick, registerSelectionBoxHandlers } from "./display/Handlers";
 import { ColorSchemeType } from "./display/colorscheme/ColorSchemeType";
 import { ParameterHandler } from "./display/ParameterHandler";
 
@@ -21,6 +21,7 @@ let image = createImage(
         imageCanvas,
         parameterHandler
 );
+registerCanvasDoubleClick(selectionCanvas, image)
 registerSelectionBoxHandlers(selectionCanvas, image);
 registerAlgorithmSelect();
 image.generate();

@@ -1,21 +1,21 @@
 import { Algorithm } from "./Algorithm";
 import { ColorScheme } from "../../display/colorscheme/ColorScheme";
 import { Coordinates } from "../Coordinates";
-import { Mandelbrot } from "../Mandelbrot";
+import { Engine } from "../engine/Engine";
 
 export class Blockwise implements Algorithm {
 
     private readonly colorScheme: ColorScheme;
     private readonly context: CanvasRenderingContext2D;
     private readonly coordinates: Coordinates;
-    private readonly engine: Mandelbrot;
+    private readonly engine: Engine;
     blockSize: number;
 
     constructor(
             colorScheme: ColorScheme,
             coordinates: Coordinates,
             context: CanvasRenderingContext2D,
-            engine: Mandelbrot) {
+            engine: Engine) {
         this.colorScheme = colorScheme;
         this.coordinates = coordinates;
         this.context = context;

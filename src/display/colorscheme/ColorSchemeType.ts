@@ -1,6 +1,7 @@
 export enum ColorSchemeType {
 
     RGB,
-    Greyscale
+    Greyscale,
+    Julia
 
 }

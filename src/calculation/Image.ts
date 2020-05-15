@@ -1,19 +1,19 @@
 import { preDrawUpdate, updateRenderStatistics } from "../display/RenderUpdates";
-import { Mandelbrot } from "./Mandelbrot";
 import { TimedAlgorithm } from "./algorithm/TimedAlgorithm";
 import { Coordinates } from "./Coordinates";
+import { Engine } from "./engine/Engine";
 
 export class Image {
 
-    private readonly algorithm: TimedAlgorithm;
+    readonly algorithm: TimedAlgorithm;
     readonly coordinates: Coordinates;
-    private readonly engine: Mandelbrot;
+    readonly engine: Engine;
     readonly maxIterations: number;
 
     constructor(
             algorithm: TimedAlgorithm,
             coordinates: Coordinates,
-            engine: Mandelbrot,
+            engine: Engine,
             maxIterations: number) {
         this.algorithm = algorithm;
         this.coordinates = coordinates;

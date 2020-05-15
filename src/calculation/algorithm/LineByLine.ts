@@ -1,20 +1,20 @@
 import { Algorithm } from "./Algorithm";
-import { Mandelbrot } from "../Mandelbrot";
 import { ColorScheme } from "../../display/colorscheme/ColorScheme";
 import { Coordinates } from "../Coordinates";
+import { Engine } from "../engine/Engine";
 
 export class LineByLine implements Algorithm {
 
     private readonly colorScheme: ColorScheme;
     private readonly context: CanvasRenderingContext2D;
     private readonly coordinates: Coordinates;
-    private readonly engine: Mandelbrot;
+    private readonly engine: Engine;
 
     constructor(
             colorScheme: ColorScheme,
             coordinates: Coordinates,
             context: CanvasRenderingContext2D,
-            engine: Mandelbrot) {
+            engine: Engine) {
         this.colorScheme = colorScheme;
         this.coordinates = coordinates;
         this.context = context;

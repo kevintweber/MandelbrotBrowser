@@ -2,8 +2,17 @@ import { ColorSchemeType } from "./ColorSchemeType";
 import { ColorScheme } from "./ColorScheme";
 import { Hsl } from "./Hsl";
 import { Greyscale } from "./Greyscale";
+import { ParameterHandler } from "../ParameterHandler";
+import { SetType } from "../../calculation/engine/SetType";
 
-export default function createColorScheme(colorSchemeType: ColorSchemeType, maxIterations: number): ColorScheme {
+export default function createColorScheme(
+        parameterHandler: ParameterHandler,
+        colorSchemeType: ColorSchemeType,
+        maxIterations: number): ColorScheme {
+    if (parameterHandler.set === SetType.Julia) {
+        colorSchemeType = ColorSchemeType.Julia;
+    }
+
     switch (colorSchemeType) {
         case ColorSchemeType.RGB:
             return new Hsl(
@@ -19,6 +28,15 @@ export default function createColorScheme(colorSchemeType: ColorSchemeType, maxI
                     maxIterations,
                     100,
                     50
+            );
+
+        case ColorSchemeType.Julia:
+            return new Hsl(
+                    maxIterations,
+                    100,
+                    150,
+                    1,
+                    0.5
             );
     }
 
