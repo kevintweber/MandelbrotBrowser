@@ -1,20 +1,37 @@
 import maxIterations from "../../src/calculation/MaxIterations";
+import { ParameterHandler } from "../../src/display/ParameterHandler";
+import { SetType } from "../../src/calculation/engine/SetType";
 
 describe("maxIterations", () => {
     it("Calculate maximum number of iterations", () => {
-        let maxIter1 = maxIterations(1);
-        expect(maxIter1).toStrictEqual(100);
+        const parameterHandler1 = new ParameterHandler();
+        parameterHandler1.width = 1;
+        parameterHandler1.set = SetType.Mandelbrot;
+        const maxIter1 = maxIterations(parameterHandler1);
+        expect(maxIter1).toStrictEqual(150);
 
-        let maxIter2 = maxIterations(0.1);
-        expect(maxIter2).toStrictEqual(180);
+        const parameterHandler2 = new ParameterHandler();
+        parameterHandler2.width = 0.1;
+        parameterHandler2.set = SetType.Mandelbrot;
+        const maxIter2 = maxIterations(parameterHandler2);
+        expect(maxIter2).toStrictEqual(459);
 
-        let maxIter3 = maxIterations(0.01);
-        expect(maxIter3).toStrictEqual(480);
+        const parameterHandler3 = new ParameterHandler();
+        parameterHandler3.width = 0.01;
+        parameterHandler3.set = SetType.Mandelbrot;
+        const maxIter3 = maxIterations(parameterHandler3);
+        expect(maxIter3).toStrictEqual(1158);
 
-        let maxIter4 = maxIterations(0.001);
-        expect(maxIter4).toStrictEqual(980);
+        const parameterHandler4 = new ParameterHandler();
+        parameterHandler4.width = 0.001;
+        parameterHandler4.set = SetType.Mandelbrot;
+        const maxIter4 = maxIterations(parameterHandler4);
+        expect(maxIter4).toStrictEqual(2176);
 
-        let maxIter5 = maxIterations(0.0001);
-        expect(maxIter5).toStrictEqual(1680);
+        const parameterHandler5 = new ParameterHandler();
+        parameterHandler5.width = 0.0001;
+        parameterHandler5.set = SetType.Mandelbrot;
+        const maxIter5 = maxIterations(parameterHandler5);
+        expect(maxIter5).toStrictEqual(3512);
     });
 });
