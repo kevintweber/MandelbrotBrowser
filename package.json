@@ -16,7 +16,7 @@
     "webpack-cli": "^4.0.0"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "jest && webpack",
     "test": "jest",
     "coverage": "jest --coverage"
   }

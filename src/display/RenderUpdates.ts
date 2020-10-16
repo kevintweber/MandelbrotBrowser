@@ -6,17 +6,17 @@ export function preDrawUpdate(image: Image) {
     console.log("Pre-draw update");
 
     // Handle max-iterations
-    let maxIterationsSpan = document.getElementById("max-iterations");
+    const maxIterationsSpan = document.getElementById("max-iterations");
     maxIterationsSpan.textContent = image.maxIterations.toString();
 
     // Handle reset
-    let resetButton = document.getElementById("reset");
+    const resetButton = document.getElementById("reset");
     resetButton.onclick = () => {
         window.location.search = "";
     }
 
     // Handle enlarge
-    let enlargeButton = document.getElementById("enlarge");
+    const enlargeButton = document.getElementById("enlarge");
     enlargeButton.onclick = () => {
         if (image.engine instanceof Julia) {
             window.location.search = "set=Julia&algorithm=LineByLine&center=" + parseFloat(enlargeButton.getAttribute("data-xcenter")) + "," +
@@ -35,7 +35,7 @@ export function preDrawUpdate(image: Image) {
     }
 
     // Handle magnification
-    let magnificationSpan = document.getElementById("magnification");
+    const magnificationSpan = document.getElementById("magnification");
     const magnification = 5.0 / image.coordinates.width;
     let magnificationText;
     if (magnification < 1000000) {
@@ -51,11 +51,11 @@ export function updateRenderStatistics(image: Image) {
     console.log("Updating render statistics");
 
     // Rendering time.
-    let renderingTimeSpan = document.getElementById("rendering-time");
+    const renderingTimeSpan = document.getElementById("rendering-time");
     renderingTimeSpan.textContent = (image.getRenderingTime() / 1000).toPrecision(2) + " sec.";
 
     // Pixels / second
-    let pixelsPerSecondSpan = document.getElementById("pixels-per-second");
+    const pixelsPerSecondSpan = document.getElementById("pixels-per-second");
     pixelsPerSecondSpan.textContent = humanReadable(
             1000 * image.coordinates.pixelWidth * image.coordinates.pixelHeight / image.getRenderingTime()
     );

@@ -4,19 +4,23 @@ import { ColorSchemeType } from "./display/colorscheme/ColorSchemeType";
 import { ParameterHandler } from "./display/ParameterHandler";
 
 // Initialize the canvas.
-let imageCanvas = <HTMLCanvasElement>document.getElementById("mandelbrot");
+const imageCanvas = <HTMLCanvasElement>document.getElementById("mandelbrot");
 imageCanvas.height = window.innerHeight;
 imageCanvas.width = window.innerWidth;
-let selectionCanvas = <HTMLCanvasElement>document.getElementById("selection");
+const selectionCanvas = <HTMLCanvasElement>document.getElementById("selection");
 selectionCanvas.height = window.innerHeight;
 selectionCanvas.width = window.innerWidth;
 
 // Handle parameters
-let parameterHandler = new ParameterHandler();
+const parameterHandler = new ParameterHandler(
+        <HTMLSelectElement>document.getElementById("algorithm"),
+        document.getElementById("enlarge"),
+        document.getElementById("title")
+);
 parameterHandler.parseQueryParameters(window.location.search);
 
 // Build the image.
-let image = createImage(
+const image = createImage(
         ColorSchemeType.RGB,
         imageCanvas,
         parameterHandler

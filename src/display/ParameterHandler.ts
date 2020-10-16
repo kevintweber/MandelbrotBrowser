@@ -11,6 +11,19 @@ export class ParameterHandler {
     juliaY: number = 0;
     width: number = 5;
 
+    private readonly algorithmSelectElement: HTMLSelectElement;
+    private readonly enlargeElement: HTMLElement;
+    private readonly titleElement: HTMLElement;
+
+    constructor(
+            algorithmSelectElement: HTMLSelectElement,
+            enlargeElement: HTMLElement,
+            titleElement: HTMLElement) {
+        this.algorithmSelectElement = algorithmSelectElement;
+        this.enlargeElement = enlargeElement;
+        this.titleElement = titleElement;
+    }
+
     parseQueryParameters(query: string) {
         let queryParameters = query.replace("?", "").split("&");
         console.log("Query parameters", queryParameters);
@@ -49,20 +62,17 @@ export class ParameterHandler {
     }
 
     private updateUI() {
-        let algorithmSelect = document.getElementById("algorithm") as HTMLSelectElement;
-        algorithmSelect.value = AlgorithmType[this.algorithm];
+        this.algorithmSelectElement.value = AlgorithmType[this.algorithm];
 
-        let enlargeInput = document.getElementById("enlarge");
-        enlargeInput.setAttribute("data-set", SetType[this.set]);
-        enlargeInput.setAttribute("data-algorithm", AlgorithmType[this.algorithm]);
-        enlargeInput.setAttribute("data-xcenter", this.centerX.toString());
-        enlargeInput.setAttribute("data-ycenter", this.centerY.toString());
-        enlargeInput.setAttribute("data-width", this.width.toString());
-        enlargeInput.setAttribute("data-julia", this.juliaX.toString() + "," + this.juliaY.toString());
+        this.enlargeElement.setAttribute("data-set", SetType[this.set]);
+        this.enlargeElement.setAttribute("data-algorithm", AlgorithmType[this.algorithm]);
+        this.enlargeElement.setAttribute("data-xcenter", this.centerX.toString());
+        this.enlargeElement.setAttribute("data-ycenter", this.centerY.toString());
+        this.enlargeElement.setAttribute("data-width", this.width.toString());
+        this.enlargeElement.setAttribute("data-julia", this.juliaX.toString() + "," + this.juliaY.toString());
 
         if (this.set === SetType.Julia) {
-            let titleElement = document.getElementById("title");
-            titleElement.textContent = "The Julia Set";
+            this.titleElement.textContent = "The Julia Set";
         }
     }
 }

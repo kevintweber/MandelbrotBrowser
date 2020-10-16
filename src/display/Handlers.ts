@@ -4,8 +4,8 @@ export function registerCanvasDoubleClick(
         canvas: HTMLCanvasElement,
         image: Image) {
     canvas.ondblclick = function (e) {
-        let xJulia = image.coordinates.getXCoordinate(e.clientX);
-        let yJulia = image.coordinates.getYCoordinate(e.clientY);
+        const xJulia = image.coordinates.getXCoordinate(e.clientX);
+        const yJulia = image.coordinates.getYCoordinate(e.clientY);
         window.open("index.html?set=Julia&center=0,0&julia=" + xJulia + "," + yJulia, "_blank");
     }
 }
@@ -13,7 +13,7 @@ export function registerCanvasDoubleClick(
 export function registerSelectionBoxHandlers(
         canvas: HTMLCanvasElement,
         image: Image) {
-    let selectionCtx = canvas.getContext("2d");
+    const selectionCtx = canvas.getContext("2d");
     let selectionBox = null;
 
     canvas.onmousedown = function (e) {
@@ -23,8 +23,8 @@ export function registerSelectionBoxHandlers(
         }
     }
 
-    let coordinatesSpan = document.getElementById("coordinates");
-    let depthSpan = document.getElementById("depth");
+    const coordinatesSpan = document.getElementById("coordinates");
+    const depthSpan = document.getElementById("depth");
     canvas.onmousemove = (e) => {
         if (selectionBox !== null) {
             selectionCtx.clearRect(
@@ -47,21 +47,21 @@ export function registerSelectionBoxHandlers(
             );
         }
 
-        let precision = Math.max(6, Math.floor(3 + Math.log10(5 / image.coordinates.width)));
+        const precision = Math.max(6, Math.floor(3 + Math.log10(5 / image.coordinates.width)));
         coordinatesSpan.textContent = image.coordinates.getXCoordinate(e.clientX).toFixed(precision) + " + " +
                 image.coordinates.getYCoordinate(e.clientY).toFixed(precision) + "i";
         depthSpan.textContent = image.calculateEscapeDepth(e.clientX, e.clientY).toString();
     }
 
-    let enlargeButton = document.getElementById("enlarge");
+    const enlargeButton = document.getElementById("enlarge");
     canvas.onmouseup = (e) => {
         console.log("Stopping selection box at:", e.clientX, e.clientY);
 
-        let xCoordinateStart = image.coordinates.getXCoordinate(Math.min(selectionBox[0], selectionBox[2]));
-        let yCoordinateStart = image.coordinates.getYCoordinate(Math.min(selectionBox[1], selectionBox[3]));
+        const xCoordinateStart = image.coordinates.getXCoordinate(Math.min(selectionBox[0], selectionBox[2]));
+        const yCoordinateStart = image.coordinates.getYCoordinate(Math.min(selectionBox[1], selectionBox[3]));
 
-        let xCoordinateStop = image.coordinates.getXCoordinate(Math.max(selectionBox[0], selectionBox[2]));
-        let yCoordinateStop = image.coordinates.getYCoordinate(Math.max(selectionBox[1], selectionBox[3]));
+        const xCoordinateStop = image.coordinates.getXCoordinate(Math.max(selectionBox[0], selectionBox[2]));
+        const yCoordinateStop = image.coordinates.getYCoordinate(Math.max(selectionBox[1], selectionBox[3]));
 
         enlargeButton.setAttribute("data-width", (xCoordinateStop - xCoordinateStart).toString());
         enlargeButton.setAttribute("data-xcenter", ((xCoordinateStart + xCoordinateStop) / 2).toString());
@@ -72,8 +72,8 @@ export function registerSelectionBoxHandlers(
 }
 
 export function registerAlgorithmSelect() {
-    let enlargeInput = document.getElementById("enlarge");
-    let algorithmSelect = document.getElementById("algorithm");
+    const enlargeInput = document.getElementById("enlarge");
+    const algorithmSelect = document.getElementById("algorithm");
     algorithmSelect.onchange = function (e) {
         const target = e.target as HTMLSelectElement
         enlargeInput.setAttribute("data-algorithm", target[target.selectedIndex].getAttribute("value"));
