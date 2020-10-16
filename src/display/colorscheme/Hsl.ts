@@ -37,4 +37,10 @@ export class Hsl implements ColorScheme {
         return color;
     }
 
+    toString(): string {
+        return "Hsl[" +
+                "cycleLength=" + this.cycleLength + ";" +
+                "hueOffset=" + this.hueOffset + ";" +
+                "]";
+    }
 }

@@ -4,6 +4,7 @@ import { Hsl } from "./Hsl";
 import { Greyscale } from "./Greyscale";
 import { ParameterHandler } from "../ParameterHandler";
 import { SetType } from "../../calculation/engine/SetType";
+import { CachedColorScheme } from "./CachedColorScheme";
 
 export default function createColorScheme(
         parameterHandler: ParameterHandler,
@@ -13,32 +14,39 @@ export default function createColorScheme(
         colorSchemeType = ColorSchemeType.Julia;
     }
 
+    let colorScheme;
     switch (colorSchemeType) {
         case ColorSchemeType.RGB:
-            return new Hsl(
+            colorScheme = new Hsl(
                     maxIterations,
                     300,
                     150,
                     1,
                     0.5
             );
+            break;
 
         case ColorSchemeType.Greyscale:
-            return new Greyscale(
+            colorScheme = new Greyscale(
                     maxIterations,
                     100,
                     50
             );
+            break;
 
         case ColorSchemeType.Julia:
-            return new Hsl(
+            colorScheme = new Hsl(
                     maxIterations,
                     100,
                     150,
                     1,
                     0.5
             );
+            break;
+
+        default:
+            throw new Error("Invalid color scheme type: " + colorSchemeType);
     }
 
-    throw new Error("Invalid color scheme type: " + colorSchemeType);
+    return new CachedColorScheme(colorScheme);
 }

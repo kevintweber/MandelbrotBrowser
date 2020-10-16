@@ -11,13 +11,13 @@ export default function createImage(
         colorSchemeType: ColorSchemeType,
         canvas: HTMLCanvasElement,
         parameterHandler: ParameterHandler): Image {
-    let maxIterations = determineMaxIterations(parameterHandler);
+    const maxIterations = determineMaxIterations(parameterHandler);
     console.log("Max iterations: ", maxIterations);
 
-    let colorScheme = createColorScheme(parameterHandler, colorSchemeType, maxIterations);
-    console.log("Color scheme: ", colorScheme);
+    const colorScheme = createColorScheme(parameterHandler, colorSchemeType, maxIterations);
+    console.log("Color scheme: ", colorScheme.toString());
 
-    let coordinates = new Coordinates(
+    const coordinates = new Coordinates(
             canvas.height,
             canvas.width,
             parameterHandler.centerX,
@@ -26,14 +26,14 @@ export default function createImage(
     );
     console.log("Coordinates: ", coordinates.toString());
 
-    let engine = createEngine(
+    const engine = createEngine(
             parameterHandler.set,
             maxIterations,
             parameterHandler
     );
     console.log("Engine: ", engine.toString());
 
-    let algorithm = createTimedAlgorithm(
+    const algorithm = createTimedAlgorithm(
             parameterHandler.algorithm,
             colorScheme,
             coordinates,

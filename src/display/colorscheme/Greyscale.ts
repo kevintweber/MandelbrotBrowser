@@ -25,4 +25,11 @@ export class Greyscale implements ColorScheme {
 
         return [ color, color, color, 255 ];
     }
+
+    toString(): string {
+        return "Greyscale[" +
+                "cycleLength=" + this.cycleLength + ";" +
+                "offset=" + this.offset + ";" +
+                "]";
+    }
 }
